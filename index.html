@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APHIN JAYA MOTOR - Order Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
+
+    <!-- HEADER -->
+    <header class="gradient-bg border-b border-slate-800 p-6 text-center shadow-lg relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-3 shadow-lg shadow-blue-500/30">
+                <i class="fa-solid fa-motorcycle text-2xl"></i>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide text-white">
+                HALO SELAMAT DATANG DI TOKO <span class="text-blue-400">APHIN JAYA MOTOR</span>
+            </h1>
+            <p class="text-slate-400 text-sm md:text-base mt-2">
+                Silahkan cari barang yang dibutuhkan disini
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- SIDEBAR KIRI -->
+        <aside class="lg:col-span-1 space-y-6">
+
+            <!-- NO BENGKEL -->
+            <div class="glass-card rounded-2xl p-5 shadow-xl">
+                <h3 class="font-bold text-lg mb-3 text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-phone text-blue-400"></i> Nomor Bengkel
+                </h3>
+                <div id="phone-container">
+                    <button onclick="revealPhone()" class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-blue-400 font-medium rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-eye"></i> Klik Untuk Lihat Nomor
+                    </button>
+                </div>
+            </div>
+
+            <!-- SARAN STOK (DEMAND) -->
+            <div class="glass-card rounded-2xl p-5 shadow-xl">
+                <h3 class="font-bold text-lg mb-2 text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-amber-400"></i> Rekomendasi Stok
+                </h3>
+                <p class="text-xs text-slate-400 mb-3">Barang yang dicari gak ada? Tulis di sini biar kami stok!</p>
+                <form id="demand-form" class="space-y-3">
+                    <input type="text" id="demand-item" placeholder="Nama barang (misal: Aki GS YTZ6V)" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500">
+                    <button type="submit" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm transition">Kirim Rekomendasi</button>
+                </form>
+                <div id="demand-msg" class="text-xs text-emerald-400 mt-2 hidden text-center">Terima kasih atas sarannya!</div>
+            </div>
+
+            <!-- RATING TOKO -->
+            <div class="glass-card rounded-2xl p-5 shadow-xl">
+                <h3 class="font-bold text-lg mb-2 text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-star text-yellow-400"></i> Rating Toko
+                </h3>
+                <div class="flex gap-2 justify-center my-3" id="rating-stars">
+                    <i class="fa-solid fa-star text-2xl text-slate-600 cursor-pointer hover:text-yellow-400 transition" onclick="setRating(1)"></i>
+                    <i class="fa-solid fa-star text-2xl text-slate-600 cursor-pointer hover:text-yellow-400 transition" onclick="setRating(2)"></i>
+                    <i class="fa-solid fa-star text-2xl text-slate-600 cursor-pointer hover:text-yellow-400 transition" onclick="setRating(3)"></i>
+                    <i class="fa-solid fa-star text-2xl text-slate-600 cursor-pointer hover:text-yellow-400 transition" onclick="setRating(4)"></i>
+                    <i class="fa-solid fa-star text-2xl text-slate-600 cursor-pointer hover:text-yellow-400 transition" onclick="setRating(5)"></i>
+                </div>
+                <div id="rating-status" class="text-xs text-center text-slate-400">Beri nilai untuk pelayanan toko kami</div>
+            </div>
+
+            <!-- GAME ANTI BOSAN -->
+            <div class="glass-card rounded-2xl p-5 shadow-xl border-emerald-500/30">
+                <h3 class="font-bold text-lg mb-1 text-emerald-400 flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad"></i> Game Tembak Zombie
+                </h3>
+                <p class="text-xs text-slate-400 mb-3">Bosen nunggu barang? Main game dulu bro!</p>
+                <button onclick="openGameModal()" class="w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-slate-950 font-bold rounded-xl text-sm shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i> Mainkan Game
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- AREA KATALOG BARANG -->
+        <section class="lg:col-span-3 space-y-6">
+
+            <!-- SEARCH BAR -->
+            <div class="glass-card rounded-2xl p-4 flex gap-3 items-center">
+                <i class="fa-solid fa-search text-slate-400 text-lg ml-2"></i>
+                <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Cari nama barang di toko ini (contoh: Oli Shell, Busi, Kampas Rem)..." class="w-full bg-transparent text-white placeholder-slate-400 focus:outline-none text-base">
+            </div>
+
+            <!-- PRODUK GRID -->
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Produk di-render via Javascript -->
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="empty-state" class="hidden glass-card rounded-2xl p-10 text-center">
+                <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-500 text-3xl">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+                <h4 class="text-lg font-bold text-slate-200 mb-1">Barang Tidak Ditemukan!</h4>
+                <p class="text-sm text-slate-400 max-w-md mx-auto">Barang yang kamu cari tidak ada stok di toko kami saat ini. Silahkan tulis rekomendasi di menu sebelah kiri agar bisa kami stok!</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- MODAL ORDER -->
+    <div id="order-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="glass-card bg-slate-900 border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-xl font-bold text-white mb-1">Konfirmasi Order</h3>
+            <p id="modal-product-name" class="text-blue-400 font-semibold mb-4 text-sm"></p>
+            
+            <form id="order-form" onsubmit="submitOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">NAMA ANDA</label>
+                    <input type="text" id="customer-name" required placeholder="Masukkan nama panggilan kamu" class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">METODE PEMBAYARAN</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="border border-slate-700 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-slate-800/50 hover:bg-slate-800">
+                            <input type="radio" name="payment" value="Cash" checked class="text-blue-600 focus:ring-0">
+                            <span class="text-sm font-medium">Cash (Tunai)</span>
+                        </label>
+                        <label class="border border-slate-700 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-slate-800/50 hover:bg-slate-800">
+                            <input type="radio" name="payment" value="Transfer" class="text-blue-600 focus:ring-0">
+                            <span class="text-sm font-medium">Transfer (QRIS)</span>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-500 font-bold text-white rounded-xl transition shadow-lg shadow-blue-600/30">Kirim Pesanan Ke Bapak</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL STATUS ORDER -->
+    <div id="status-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="glass-card bg-slate-900 border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center">
+            <div id="status-icon" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl"></div>
+            <h3 id="status-title" class="text-xl font-bold mb-2"></h3>
+            <p id="status-desc" class="text-sm text-slate-400 mb-6"></p>
+            <button onclick="closeStatusModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-medium">Tutup</button>
+        </div>
+    </div>
+
+    <!-- MODAL GAME -->
+    <div id="game-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+        <div class="glass-card bg-slate-900 border-slate-700 rounded-2xl max-w-2xl w-full p-5 shadow-2xl relative">
+            <button onclick="closeGameModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
+                    <i class="fa-solid fa-crosshairs"></i> Zombie Shooter Mini Game
+                </h3>
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-slate-400">Durasi:</label>
+                    <select id="game-duration" onchange="resetGame()" class="bg-slate-800 text-xs text-white border border-slate-700 rounded-lg px-2 py-1 focus:outline-none">
+                        <option value="1">1 Menit</option>
+                        <option value="5">5 Menit</option>
+                        <option value="15">15 Menit</option>
+                        <option value="30">30 Menit</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CANVAS GAME -->
+            <div class="relative flex justify-center bg-slate-950 rounded-xl overflow-hidden border border-slate-800">
+                <canvas id="gameCanvas" width="600" height="350" class="w-full max-w-full h-auto cursor-crosshair"></canvas>
+                <div id="game-over-screen" class="absolute inset-0 bg-black/85 hidden flex flex-col items-center justify-center text-center p-4">
+                    <h4 class="text-2xl font-extrabold text-red-500 mb-1">GAME OVER</h4>
+                    <p class="text-sm text-slate-300 mb-3">Skor Akhir Kamu: <span id="final-score" class="text-yellow-400 font-bold">0</span></p>
+                    <button onclick="startGame()" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-xl text-sm transition">Main Lagi</button>
+                </div>
+            </div>
+            
+            <div class="flex justify-between items-center mt-3 text-xs text-slate-400">
+                <span>Arahkan & Klik / Tap Layar untuk menembak zombie!</span>
+                <button onclick="startGame()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-white rounded-lg">Reset / Start</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const products = [
+            { id: 1, name: "Oli Mesin MPX2 Matic 0.8L", price: "Rp 55.000", cat: "Oli" },
+            { id: 2, name: "Oli Yamalube Silver 0.8L", price: "Rp 50.000", cat: "Oli" },
+            { id: 3, name: "Kampas Rem Depan Beat/Vario", price: "Rp 35.000", cat: "Sparepart" },
+            { id: 4, name: "Busi NGK CPR9EA-9", price: "Rp 25.000", cat: "Busi" },
+            { id: 5, name: "Ban Luar FDR 80/90-14 Tubeless", price: "Rp 185.000", cat: "Ban" },
+            { id: 6, name: "Aki Motor Yuasa YTZ5S", price: "Rp 210.000", cat: "Aki" },
+            { id: 7, name: "Rantai Roda Indopart 428H", price: "Rp 85.000", cat: "Sparepart" },
+            { id: 8, name: "Lampuj Depan LED Tyto H6", price: "Rp 45.000", cat: "Aksesori" }
+        ];
+
+        let selectedProduct = null;
+        let currentOrderId = null;
+        const channel = new BroadcastChannel('aphin_motor_channel');
+
+        // Render Katalog
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            const empty = document.getElementById('empty-state');
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            items.forEach(p => {
+                grid.innerHTML += `
+                    <div class="glass-card rounded-2xl p-4 flex flex-col justify-between hover:border-blue-500/50 transition">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">${p.cat}</span>
+                            <h4 class="font-bold text-base text-white mt-2">${p.name}</h4>
+                            <p class="text-sm text-emerald-400 font-semibold mt-1">${p.price}</p>
+                        </div>
+                        <button onclick="openOrderModal('${p.name}')" class="mt-4 w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Order Sekarang
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        function revealPhone() {
+            document.getElementById('phone-container').innerHTML = `
+                <a href="https://wa.me/6281234567890" target="_blank" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> 0812-3456-7890 (Chat WA)
+                </a>
+            `;
+        }
+
+        document.getElementById('demand-form').onsubmit = (e) => {
+            e.preventDefault();
+            const item = document.getElementById('demand-item').value;
+            const demands = JSON.parse(localStorage.getItem('aphin_demands') || '[]');
+            demands.push({ item, date: new Date().toLocaleTimeString() });
+            localStorage.setItem('aphin_demands', JSON.stringify(demands));
+            channel.postMessage({ type: 'NEW_DEMAND' });
+            document.getElementById('demand-item').value = '';
+            document.getElementById('demand-msg').classList.remove('hidden');
+            setTimeout(() => document.getElementById('demand-msg').classList.add('hidden'), 3000);
+        };
+
+        function setRating(val) {
+            const stars = document.getElementById('rating-stars').children;
+            for (let i = 0; i < 5; i++) {
+                stars[i].className = i < val ? "fa-solid fa-star text-2xl text-yellow-400 cursor-pointer" : "fa-solid fa-star text-2xl text-slate-600 cursor-pointer";
+            }
+            document.getElementById('rating-status').innerText = `Terima kasih atas rating ${val} bintangnya!`;
+            localStorage.setItem('aphin_rating', val);
+        }
+
+        function openOrderModal(pName) {
+            selectedProduct = pName;
+            document.getElementById('modal-product-name').innerText = "Barang: " + pName;
+            document.getElementById('order-modal').classList.remove('hidden');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.add('hidden');
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('customer-name').value;
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+            currentOrderId = 'ORD-' + Date.now();
+
+            const newOrder = {
+                id: currentOrderId,
+                customer: name,
+                product: selectedProduct,
+                payment: payment,
+                status: 'pending',
+                time: new Date().toLocaleTimeString()
+            };
+
+            const orders = JSON.parse(localStorage.getItem('aphin_orders') || '[]');
+            orders.unshift(newOrder);
+            localStorage.setItem('aphin_orders', JSON.stringify(orders));
+
+            channel.postMessage({ type: 'NEW_ORDER', order: newOrder });
+
+            closeOrderModal();
+            showStatusModal('pending', 'Menunggu Konfirmasi Bapak', 'Pesanan kamu sudah terkirim ke komputer/HP Bapak. Mohon tunggu sebentar...');
+        }
+
+        function showStatusModal(status, title, desc) {
+            const modal = document.getElementById('status-modal');
+            const icon = document.getElementById('status-icon');
+            const t = document.getElementById('status-title');
+            const d = document.getElementById('status-desc');
+
+            t.innerText = title;
+            d.innerText = desc;
+
+            if (status === 'pending') {
+                icon.className = 'w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl bg-amber-500/20 text-amber-400 animate-pulse';
+                icon.innerHTML = '<i class="fa-solid fa-hourglass-half"></i>';
+            } else if (status === 'ready') {
+                icon.className = 'w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl bg-emerald-500/20 text-emerald-400';
+                icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            } else {
+                icon.className = 'w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl bg-red-500/20 text-red-400';
+                icon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeStatusModal() {
+            document.getElementById('status-modal').classList.add('hidden');
+        }
+
+        channel.onmessage = (e) => {
+            if (e.data.type === 'STATUS_UPDATE' && e.data.orderId === currentOrderId) {
+                if (e.data.status === 'ready') {
+                    showStatusModal('ready', 'STOK ADA!', 'Barang kamu ready bro! Silahkan ke kasir untuk proses pembayaran & ambil barang.');
+                } else if (e.data.status === 'empty') {
+                    showStatusModal('empty', 'STOK HABIS!', 'Maaf banget bro, stok barang ini lagi kosong di toko.');
+                }
+            }
+        };
+
+        // --- MINI GAME ZOMBIE ---
+        let canvas, ctx, gameLoopId, gameTimeLeft, timerInterval;
+        let cannon = { x: 300, y: 320, angle: 0, hp: 100 };
+        let bullets = [], zombies = [], score = 0, isGameOver = false;
+
+        function openGameModal() {
+            document.getElementById('game-modal').classList.remove('hidden');
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            canvas.addEventListener('mousemove', trackMouse);
+            canvas.addEventListener('click', shoot);
+            startGame();
+        }
+
+        function closeGameModal() {
+            document.getElementById('game-modal').classList.add('hidden');
+            cancelAnimationFrame(gameLoopId);
+            clearInterval(timerInterval);
+        }
+
+        function trackMouse(e) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            cannon.angle = Math.atan2(mouseY - cannon.y, mouseX - cannon.x);
+        }
+
+        function shoot() {
+            if (isGameOver) return;
+            bullets.push({
+                x: cannon.x,
+                y: cannon.y,
+                vx: Math.cos(cannon.angle) * 7,
+                vy: Math.sin(cannon.angle) * 7
+            });
+        }
+
+        function startGame() {
+            document.getElementById('game-over-screen').classList.add('hidden');
+            const mins = parseInt(document.getElementById('game-duration').value);
+            gameTimeLeft = mins * 60;
+            score = 0;
+            cannon.hp = 100;
+            bullets = [];
+            zombies = [];
+            isGameOver = false;
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                gameTimeLeft--;
+                if (gameTimeLeft <= 0) endGame();
+            }, 1000);
+
+            cancelAnimationFrame(gameLoopId);
+            loop();
+        }
+
+        function resetGame() { startGame(); }
+
+        function endGame() {
+            isGameOver = true;
+            clearInterval(timerInterval);
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('game-over-screen').classList.remove('hidden');
+        }
+
+        function loop() {
+            if (!isGameOver) {
+                update();
+                render();
+                gameLoopId = requestAnimationFrame(loop);
+            }
+        }
+
+        function update() {
+            // Spawn Zombies
+            if (Math.random() < 0.03) {
+                const spawnX = Math.random() * canvas.width;
+                zombies.push({ x: spawnX, y: 0, speed: 1 + Math.random() * 1.5 });
+            }
+
+            // Update Bullets
+            bullets.forEach((b, bi) => {
+                b.x += b.vx; b.y += b.vy;
+                if (b.x < 0 || b.x > canvas.width || b.y < 0 || b.y > canvas.height) bullets.splice(bi, 1);
+            });
+
+            // Update Zombies
+            zombies.forEach((z, zi) => {
+                z.y += z.speed;
+                // Collision with cannon
+                const dist = Math.hypot(z.x - cannon.x, z.y - cannon.y);
+                if (dist < 25) {
+                    cannon.hp -= 10;
+                    zombies.splice(zi, 1);
+                    if (cannon.hp <= 0) endGame();
+                }
+                // Collision with bullet
+                bullets.forEach((b, bi) => {
+                    if (Math.hypot(z.x - b.x, z.y - b.y) < 18) {
+                        score += 10;
+                        zombies.splice(zi, 1);
+                        bullets.splice(bi, 1);
+                    }
+                });
+            });
+        }
+
+        function render() {
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Meriam
+            ctx.save();
+            ctx.translate(cannon.x, cannon.y);
+            ctx.rotate(cannon.angle);
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillRect(0, -6, 30, 12);
+            ctx.restore();
+
+            ctx.beginPath();
+            ctx.arc(cannon.x, cannon.y, 18, 0, Math.PI * 2);
+            ctx.fillStyle = '#1d4ed8';
+            ctx.fill();
+
+            // Peluru
+            ctx.fillStyle = '#f59e0b';
+            bullets.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Zombie
+            ctx.fillStyle = '#10b981';
+            zombies.forEach(z => {
+                ctx.beginPath();
+                ctx.arc(z.x, z.y, 12, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // HUD
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(`Skor: ${score}`, 10, 20);
+            ctx.fillText(`HP Meriam: ${cannon.hp}%`, 10, 38);
+            ctx.fillText(`Waktu: ${Math.floor(gameTimeLeft / 60)}:${(gameTimeLeft % 60).toString().padStart(2, '0')}`, canvas.width - 80, 20);
+        }
+
+        renderProducts(products);
+    </script>
+</body>
+</html>
